@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fender Bender Chooser: car insurance for a Geely EX5 in NSW</title>
+<link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 40 26" width="34" height="22"><path d="M20 2 L34 7 V13 C34 19 28 23 20 25 C12 23 6 19 6 13 V7 Z" fill="#fff"/><path d="M13 15 l2-4 h10 l2 4 v3 h-14 z" fill="#0b3d2e"/><circle cx="16" cy="18.5" r="1.6" fill="#f2b84b"/><circle cx="24" cy="18.5" r="1.6" fill="#f2b84b"/></svg></span>Fender Bender <span class="au">Chooser</span></div>
+  <div class="topbar-controls">
+    <div class="seg" id="horizon" role="radiogroup" aria-label="Which year">
+      <button data-h="y1" class="on" role="radio" aria-checked="true">First year</button>
+      <button data-h="renew" role="radio" aria-checked="false">At renewal</button>
+    </div>
+    <div class="seg" id="viewMode" role="radiogroup" aria-label="View">
+      <button data-view="grid" class="on" role="radio" aria-checked="true">Insurers</button>
+      <button data-view="table" role="radio" aria-checked="false">Cover table</button>
+      <button data-view="quotes" role="radio" aria-checked="false">My quotes <span class="count" id="quoteCount"></span></button>
+      <button data-view="tips" role="radio" aria-checked="false">Tips</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="filters collapsed" id="filters">
+    <button class="f-toggle" id="filtersToggle" type="button"><span><b>Your details &amp; must-haves</b><small id="filtersSummary"></small></span><i>Edit</i></button>
+    <div class="f-head">
+      <h2>You &amp; your EX5</h2>
+      <button id="resetProfile" class="link">Reset</button>
+    </div>
+    <p class="f-intro">Insurers price on these. The estimates use rough rules of thumb; <b>your real quotes always win</b>.</p>
+
+    <section class="f-group">
+      <div class="f-label">Variant</div>
+      <div class="chips" id="variantChips"></div>
+    </section>
+    <section class="f-group">
+      <label class="f-label" for="carValue">Insure it for <span class="f-num"><span class="pre">$</span><input type="number" id="carValueNum" inputmode="numeric" class="num"><span class="post"></span></span></label>
+      <input type="range" id="carValue" min="25000" max="60000" step="250" value="45000">
+      <div class="f-hint" id="carValueHint"></div>
+    </section>
+    <section class="f-group">
+      <div class="f-label">Main driver's age</div>
+      <div class="chips" id="ageChips"></div>
+    </section>
+    <section class="f-group">
+      <div class="f-label">At-fault claims, last 3 years</div>
+      <div class="chips" id="claimsChips">
+        <button data-v="0">None</button><button data-v="1">One</button><button data-v="2">Two or more</button>
+      </div>
+      <label class="check"><input type="checkbox" id="youngDriver"> Someone under 25 will also drive it</label>
+    </section>
+    <section class="f-group">
+      <div class="f-label">Parked overnight</div>
+      <div class="chips" id="parkChips">
+        <button data-v="garage">Locked garage</button><button data-v="driveway">Driveway / carport</button><button data-v="street">Street</button>
+      </div>
+    </section>
+    <section class="f-group">
+      <label class="f-label" for="km">Kilometres a year <span class="f-num"><span class="pre"></span><input type="number" id="kmNum" inputmode="numeric" class="num"><span class="post">km</span></span></label>
+      <input type="range" id="km" min="2000" max="40000" step="1000" value="12000">
+    </section>
+    <section class="f-group">
+      <label class="f-label" for="excess">Basic excess you'd choose <span class="f-num"><span class="pre">$</span><input type="number" id="excessNum" inputmode="numeric" class="num"><span class="post"></span></span></label>
+      <input type="range" id="excess" min="0" max="3000" step="100" value="1000">
+      <div class="f-hint">A higher excess lowers the premium. Pick what you could pay tomorrow without stress.</div>
+    </section>
+    <section class="f-group">
+      <div class="f-label">How you'd pay</div>
+      <div class="chips" id="payChips">
+        <button data-v="annual">Yearly</button><button data-v="monthly">Monthly</button>
+      </div>
+      <label class="f-label sub" for="multiSel">Home or contents already insured with</label>
+      <select id="multiSel" class="search"></select>
+      <div class="f-hint">Most brands give 5–15% off for a second policy.</div>
+    </section>
+
+    <div class="f-head top-gap">
+      <h2>Must-haves</h2>
+      <button id="resetMust" class="link">Reset</button>
+    </div>
+    <p class="f-intro">Tick what you need. Where it's an optional extra we add its cost; where a policy can't do it at all we flag it.</p>
+    <div id="mustList" class="must-list"></div>
+    <label class="check"><input type="checkbox" id="hideMissing"> Hide policies missing a must-have</label>
+
+    <div class="f-head top-gap">
+      <h2>Narrow it down</h2>
+      <button id="resetFilters" class="link">Reset</button>
+    </div>
+    <section class="f-group">
+      <input type="search" id="search" class="search" placeholder="Search brand, e.g. NRMA, AAMI, Youi">
+    </section>
+    <section class="f-group">
+      <div class="f-label">Car value basis</div>
+      <div class="chips" id="basisChips">
+        <button data-v="agreed">Agreed value</button><button data-v="market">Market value</button>
+      </div>
+      <div class="f-hint">Agreed value fixes the payout. Market value pays what the car is worth when it's written off, which falls fast on a Chinese EV after price cuts.</div>
+    </section>
+    <section class="f-group">
+      <div class="f-label">Brands <button class="link small" id="brandAll">all</button> <button class="link small" id="brandNone">none</button></div>
+      <div class="brand-list" id="brandList"></div>
+    </section>
+    <button class="primary f-done" id="filtersDone" type="button">Show policies</button>
+  </aside>
+
+  <main class="content">
+    <div class="results-head" id="resultsHead">
+      <div>
+        <h1 id="resultCount">Loading…</h1>
+        <p class="sub" id="resultSub"></p>
+      </div>
+      <label class="ctl" id="sortCtl">Sort
+        <select id="sortSel">
+          <option value="cost">Cheapest for my cover</option>
+          <option value="fit">Best cover fit</option>
+          <option value="claims">Happiest claimants</option>
+          <option value="excess">Basic excess: lowest</option>
+          <option value="brand">Brand A to Z</option>
+        </select>
+      </label>
+    </div>
+    <div id="best" class="mine hidden"></div>
+    <div id="grid" class="grid"></div>
+    <div id="tableView" class="table-view hidden"></div>
+    <div id="quotesView" class="quotes-view hidden"></div>
+    <div id="tipsView" class="tips-view hidden"></div>
+    <p class="disclaimer" id="disclaimer"></p>
+  </main>
+</div>
+
+<div class="compare-tray hidden" id="compareTray">
+  <div class="tray-items" id="trayItems"></div>
+  <div class="tray-actions">
+    <button id="openCompare" class="primary">Compare</button>
+    <button id="clearCompare" class="ghost">Clear</button>
+  </div>
+</div>
+
+<div class="modal hidden" id="detailModal" role="dialog" aria-modal="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel" id="detailPanel"></div>
+</div>
+
+<div class="modal hidden" id="compareModal" role="dialog" aria-modal="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel wide" id="comparePanel"></div>
+</div>
+
+<script src="data.js?v=1"></script>
+<script src="app.js?v=1"></script>
+</body>
+</html>
