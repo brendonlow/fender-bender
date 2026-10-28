@@ -448,3 +448,21 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 2px 0; }
   .results-head { flex-direction: column; align-items: flex-start; gap: 8px; }
   .results-head h1 { font-size: 19px; }
 }
+
+/* ---------- simplified layout (v2) ---------- */
+.choice { padding: 14px 0; border-top: 1px solid var(--line); }
+.choice .f-label span { display: flex; align-items: center; gap: 8px; }
+.f-label .n { font-style: normal; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; display: inline-grid; place-items: center; }
+.card.simple { gap: 10px; }
+.card .strip { border-radius: 10px; padding: 10px 12px; color: #fff; display: flex; flex-direction: column; gap: 1px; }
+.card .strip .issuer { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; opacity: .9; }
+.card .strip .cname { font-size: 15px; font-weight: 700; }
+.ticks { list-style: none; margin: 0; padding: 8px 0 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; color: var(--ink-2); }
+.ticks li { display: flex; align-items: center; gap: 8px; }
+.miss { font-size: 12px; color: #8a2217; background: var(--bad-soft); border-radius: 8px; padding: 6px 9px; }
+.award { font-size: 11.5px; color: #7a5300; }
+.more { margin-top: 18px; }
+.more .grid { margin-top: 14px; }
+.more .grid.dim { opacity: .8; }
+.more-h { font-size: 14px; color: var(--ink-2); margin: 22px 0 0; }
+.more-toggle { font-size: 13px; }

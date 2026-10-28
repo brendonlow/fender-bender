@@ -4743,20 +4743,8 @@ window.FB = {
    ]
   },
   {
-   "h": "Why EVs get written off over small damage",
-   "html": "<ul><li>Higher premiums are driven by repair cost: specialised parts, HV-trained techs, fewer EV-capable shops. ICA says motor repair costs are up 26% since 2022 and make up ~60% of claims cost.</li><li>Write-offs from minor damage. A BYD Atto 3 with ~300 km was written off after 'very minor' rear-end damage with no battery damage (Paul Maric). Fewer than 10% of NSW techs have formal EV training (AAAA).</li><li>Battery casing damage often means a write-off because modules can't be repaired or certified. Casing repair is $15k-$40k (RACV, via Mozo). Mozo recommends agreed value for EVs and checking the policy explicitly covers thermal runaway and accidental battery damage.</li><li>Premium volatility on newer Chinese brands: Compare the Market saw Zeekr X +19% and Xpeng G6 +24% yoy, while BYD Sealion 7 rose +0.5% and MG4 fell -4%. Insurers are still learning loss costs on new brands.</li><li>Geely parts and repair: one 2025 EX5 rear-end repair (Sunshine Coast) found parts readily available and the insurer allowed choice of repairer. An owner on ProductReview reported waiting on an interior part replacement. No systematic AU wait-time data.</li><li>No evidence of mainstream insurers declining Geely EX5s. Youi, Allianz and Drive's quote panel all quote it. Geely's 5-star ANCAP and standard ADAS help.</li></ul><p>So ask how they handle battery damage, and favour policies that let you pick an EV-capable repairer.</p>",
-   "src": [
-    "https://www.insurancebusinessmag.com/au/news/auto-motor/australias-ev-insurance-challenge-grows-as-evs-hit-24-of-new-car-sales-592986.aspx",
-    "https://au.news.yahoo.com/warning-over-growing-ev-graveyards-as-major-change-looms-for-aussie-electric-car-industry-211640297.html",
-    "https://www.mozo.com.au/insurance/car-insurance/guides/ev-car-insurance",
-    "https://itwire.com/science-news/automotive/ev-insurance-prices-up-10-in-12-months,-but-aussies-could-save-with-one-simple-move.html",
-    "https://cleantechnica.com/2025/08/14/what-a-bummer-or-repairing-our-rear-ended-geely-ex5/",
-    "https://www.allianz.com.au/car-insurance/ev-insurance/geely.html"
-   ]
-  },
-  {
    "h": "Getting the price down",
-   "html": "<ul><li><b>Never auto-renew.</b> ASIC found 31% of people who rang their insurer before renewal got a cheaper price with the same cover.</li><li><b>Pay yearly.</b> Monthly instalments often cost 10–20% more (ROLLiN' and Bendigo are exceptions).</li><li><b>Raise the excess.</b> Going from $600 to $1,000 can save up to about $400 a year.</li><li><b>Be honest but exact about kilometres.</b> Cutting 15,000 to 10,000 km can save around $200.</li><li><b>Buy online</b> for 10–15% off the first year, then shop again at renewal when it drops off. The “At renewal” toggle up top shows the difference.</li><li><b>Bundle with home or contents</b> at the same brand for 5–15% off.</li><li>Only list drivers who actually drive the car.</li></ul>",
+   "html": "<ul><li><b>Never auto-renew.</b> ASIC found 31% of people who rang their insurer before renewal got a cheaper price with the same cover.</li><li><b>Pay yearly.</b> Monthly instalments often cost 10–20% more (ROLLiN' and Bendigo are exceptions).</li><li><b>Raise the excess.</b> Going from $600 to $1,000 can save up to about $400 a year.</li><li><b>Be honest but exact about kilometres.</b> Cutting 15,000 to 10,000 km can save around $200.</li><li><b>Buy online</b> for 10–15% off the first year, then shop again at renewal when it drops off. Each card shows the renewal price too.</li><li><b>Bundle with home or contents</b> at the same brand for 5–15% off.</li><li>Only list drivers who actually drive the car.</li></ul>",
    "src": [
     "https://www.asic.gov.au/about-asic/news-centre/find-a-media-release/2026-releases/26-189mr-consumers-left-in-the-dark-about-rising-car-insurance-premiums-asic-warns",
     "https://www.asic.gov.au/about-asic/news-centre/find-a-media-release/2026-releases/26-189mr-consumers-left-in-the-dark-about-rising-car-insurance-premiums-asic-warns",
@@ -4767,27 +4755,6 @@ window.FB = {
    ]
   },
   {
-   "h": "Who pays claims without a fight",
-   "html": "<p>Nobody publishes claims-acceptance rates for car insurance in Australia; Moneysmart's tool only covers life insurance. The best proxies:</p><table><tr><th>CHOICE claims satisfaction (2025)</th><th>Rated claim good</th></tr><tr><td>NRMA</td><td>78%</td></tr><tr><td>Woolworths</td><td>77%</td></tr><tr><td>GIO</td><td>76%</td></tr><tr><td>Suncorp</td><td>75%</td></tr><tr><td>Youi</td><td>73%</td></tr><tr><td>Apia</td><td>70%</td></tr><tr><td>Allianz</td><td>69%</td></tr><tr><td>AAMI</td><td>64%</td></tr><tr><td>Budget Direct</td><td>52%</td></tr></table><p>Car insurance was AFCA's most-complained-about insurance product in 2025-26 (14,430 complaints, up 28%), mostly about delays. A new Code of Practice will force a claim decision within 4 months.</p>",
-   "src": [
-    "https://choice.com.au/money/insurance/car/articles/car-insurance-customer-satisfaction",
-    "https://www.insurancebusinessmag.com/au/news/breaking-news/insurance-complaints-surge-for-fifth-year-as-claims-issues-mount-594550.aspx",
-    "https://www.insurancebusinessmag.com/au/news/breaking-news/insurers-face-legally-binding-code-obligations-for-first-time-under-revised-code-of-practice-594556.aspx"
-   ]
-  },
-  {
-   "h": "2026 awards",
-   "html": "<ul><li><b>Canstar Outstanding Value Car Insurance 2026, NSW</b>: ROLLiN' Insurance</li><li><b>Canstar Outstanding Value Car Insurance 2026, National</b>: AAMI, Bingle, ROLLiN' Insurance</li><li><b>Canstar Most Satisfied Customers Car Insurance 2026</b>: Bupa (national), ANZ (NSW)</li><li><b>Finder Car Insurance Awards 2026</b>: Best Value: Budget Direct Comprehensive, Best Features: Youi Comprehensive, Best Low Cost: Budget Direct Comprehensive</li><li><b>Finder Provider of the Year 2026 (car insurer)</b>: Youi</li><li><b>Mozo Experts Choice Car Insurance (latest published = 2025; 2026 not yet released as at 27 Oct 2026)</b>: Best Value: Budget Direct, Best Quality: NRMA Insurance, Highly commended: ING, Suncorp, Exceptional Value EV Insurance: Westpac, Bingle, ROLLiN', Kogan</li></ul><p>Awards are worth a glance, but they score typical drivers and cars, not an EX5 in the Hills.</p>",
-   "src": [
-    "https://www.canstar.com.au/star-ratings-awards/car-insurance/",
-    "https://www.canstar.com.au/star-ratings-awards/car-insurance/",
-    "https://www.canstar.com.au/star-ratings-awards/most-satisfied-customers-car-insurer-award/",
-    "https://www.finder.com.au/finder-awards/product-awards/car-insurance-awards",
-    "https://www.finder.com.au/news/finder-reveals-the-2026-provider-of-the-year-awards",
-    "https://www.mozo.com.au/expertschoice/car-insurance"
-   ]
-  },
-  {
    "h": "Don't forget the green slip",
    "html": "<p>CTP (green slip) is compulsory and separate from comprehensive cover. For a private car garaged in 2155 it runs about <b>$573–$757</b> a year, depending on the insurer. That's a $184 spread for identical cover, and being an EV doesn't change it.</p><p>Six insurers sell them: AAMI, Allianz, GIO, NRMA, QBE, Youi. Use the official <a href='https://www.greenslips.nsw.gov.au/' target='_blank' rel='noopener'>green slip price checker</a>; it takes two minutes.</p><p>Other yearly costs: rego is about <b>$680</b> for the EX5's weight class, less a one-off $100 discount until Aug 2027. NSW's EV road user charge (3.1c/km, about $370 at 12,000 km) is legislated from July 2027 but legally uncertain.</p>",
    "src": [
@@ -4795,32 +4762,6 @@ window.FB = {
     "https://www.greenslips.nsw.gov.au/",
     "https://www.nsw.gov.au/topics/vehicle-registration/fees-concessions-forms/fees",
     "https://www.nsw.gov.au/driving-boating-and-transport/nsw-governments-electric-vehicle-strategy/road-user-charge"
-   ]
-  },
-  {
-   "h": "Repairs near Kellyville",
-   "html": "<p>Geely doesn't publish a list of approved crash repairers in Australia, so insurers send EX5s to their own networks unless you have <b>choice of repairer</b>.</p><ul><li><b>Geely Castle Hill</b>, 11 Hudson Ave, Castle Hill NSW 2154, 02 8822 1622</li><li><b>Geely Blacktown</b>, 161 Main St, Blacktown NSW 2148, 02 8822 1155</li><li><b>Geely Parramatta</b>, 14/18 Church St, Parramatta NSW 2150, 02 7803 4250</li><li><b>Geely Penrith (Nepean Motor Group)</b>, 2128-2140 Castlereagh Rd, Penrith NSW, 02 4760 0461</li></ul><p>EV-capable independents nearby: Parramatta Smash Repairs (EV repairs, BYD and XPENG approved) and Western Smash Repairs, Seven Hills.</p>",
-   "src": [
-    "https://www.geelycastlehill.com.au/",
-    "https://www.geelyblacktown.com.au/",
-    "https://www.geelyparramatta.com.au/",
-    "https://www.nepeanmotorgroup.com.au/brands/geely",
-    "https://zecar.com/reviews/geely-expands-australia-ex5-suv-22-dealerships",
-    "https://www.bodyshopmag.com/?p=55665"
-   ]
-  },
-  {
-   "h": "Tell them about tint, PPF and ceramic",
-   "html": "<p>If you've had window tint, paint protection film or a ceramic coating done (see Protect Lab), list it as an accessory or modification when you quote. Undeclared modifications are a classic reason claims get reduced. Ask whether the film is replaced too if a panel is repaired.</p>"
-  },
-  {
-   "h": "Your EX5 at a glance",
-   "html": "<table><tr><td>RRP</td><td>Complete $41,990 · Inspire $45,990 (2026 Extended Range, $1,000 more than 2025)</td></tr><tr><td>NSW driveaway</td><td>≈$45,200 · ≈$49,300</td></tr><tr><td>Safety</td><td>5 stars (2025), all variants. Adult 86%, child 87%, safety assist 85%. Lost frontal-offset points to A-pillar weld separation. Rating expires 31 Dec 2031.</td></tr><tr><td>Warranty</td><td>7 years / unlimited km for private use (7 yrs/150,000 km commercial). Excludes rideshare, rental and delivery use. · battery 8 years / unlimited km for private use, covering capacity down to 70% state of health</td></tr><tr><td>Tare</td><td>1715 kg (NSW 1,501–2,500 kg rego band)</td></tr></table>",
-   "src": [
-    "https://zecar.com/reviews/2026-geely-ex5-extended-range-pricing-revealed",
-    "https://www.carexpert.com.au/geely/ex5/2026",
-    "https://afma.org.au/geely-ex5-earns-five-star-ancap-safety-rating/",
-    "https://www.geely.com.au/ownership/warranty"
    ]
   }
  ],

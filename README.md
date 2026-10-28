@@ -8,14 +8,19 @@ Compare comprehensive car insurance for a **Geely EX5** in Sydney, and keep trac
 
 ## What it does
 
-- **Insurers.** 32 comprehensive policies from 25 brands, including NRMA, AAMI, GIO, Suncorp, Allianz, Youi, Budget Direct, ROLLiN', ING, Qantas, Coles and Bingle. Each gets an estimated yearly cost for your profile: variant, insured value, age, at-fault claims, parking, kilometres, excess, monthly or yearly payment, and bundling. You also see the cost in a year you make a claim, and how well the policy matches your must-have cover.
-- **Must-haves.** Tick the cover you need, such as new-car replacement, a hire car after an accident, EV charger cover or choice of repairer. If a policy only sells it as an extra, the typical cost is added. If it isn't offered, or the policy documents don't confirm it, the policy is flagged.
-- **First year vs renewal.** The price once one-off buy-online discounts drop off.
-- **Cover table.** Every policy against 17 cover items. Hover a mark to read what the policy document (PDS) actually says.
-- **My quotes.** Log the real quotes you get. They replace the estimates everywhere, and the banner shows your best quote and which policies might still beat it. Includes a checklist of what to have ready and questions to ask each insurer. Quotes are saved only in your browser.
-- **Tips.** What an EX5 should cost to insure, why Geely's included roadside makes the insurer add-on redundant, agreed vs market value, why EVs get written off after small damage, green slip prices, and who handles claims well.
+You make five choices:
 
-![Cover table](docs/table.jpg)
+1. **Which EX5**: Complete or Inspire (sets the insured value)
+2. **Main driver's age**: the biggest thing insurers price on
+3. **Excess**: $500, $1,000, $1,500 or $2,000
+4. **Must-haves**: new car if it's written off, hire car after an accident, agreed value, your own repairer, charging cable cover
+5. **Yearly or monthly**: monthly usually costs 8–12% more
+
+You get a **shortlist**: one card per insurer (22 brands, 32 policies behind them), cheapest first, only those that tick your must-haves. Each card shows the first-year estimate, what it's likely to cost at renewal once the online discount drops off, and a tick for each must-have. Tap a card for the full policy breakdown and sources.
+
+**My quotes** is where you log the real quotes you get. They replace the estimates everywhere, and the top banner shows your best quote and who else is worth asking. It also has a checklist of what to have ready and the questions to ask. Quotes are saved only in your browser.
+
+**Tips** covers what an EX5 should cost to insure, why Geely's included roadside makes the insurer add-on redundant, agreed vs market value, how to get the price down, and green slips.
 
 | Policy detail | Tips | Mobile |
 |---|---|---|
@@ -23,7 +28,7 @@ Compare comprehensive car insurance for a **Geely EX5** in Sydney, and keep trac
 
 ## How good are the numbers?
 
-- **Cover features** come from each insurer's product disclosure statement (PDS), website and comparison sites (CHOICE, Canstar, Finder, Mozo). Every policy's detail panel links its sources. Where a site blocked access or said nothing, the item is marked *not confirmed* rather than guessed.
+- **Cover features** come from each insurer's product disclosure statement (PDS), website and comparison sites (CHOICE, Canstar, Finder, Mozo). Every policy's detail panel links its sources. Where a site blocked access or said nothing, the item is marked *not confirmed* rather than guessed, and insurers on CHOICE's 2026 "policies to avoid" list are left off the shortlist.
 - **Prices are estimates.** Insurers don't publish premiums, so the model starts from published EX5 evidence: CHOICE's new-Geely average of $1,622, Youi's EX5 range of $1,082–$1,978, Drive's Sydney quote of about $1,904, and NRMA's own EX5 quote of about $2,237. It then adjusts for rough profile rules and each brand's relative pricing. Use the estimates to choose who to ask for a quote first; your real quotes are what count.
 - **Claims:** Australia has no public claims-acceptance data for car insurance. The app shows CHOICE's 2025 claims-satisfaction survey where a brand was included.
 
