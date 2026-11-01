@@ -4,79 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fender Bender Chooser: car insurance for a Geely EX5 in NSW</title>
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 <header class="topbar">
   <div class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 40 26" width="34" height="22"><path d="M20 2 L34 7 V13 C34 19 28 23 20 25 C12 23 6 19 6 13 V7 Z" fill="#fff"/><path d="M13 15 l2-4 h10 l2 4 v3 h-14 z" fill="#0b3d2e"/><circle cx="16" cy="18.5" r="1.6" fill="#f2b84b"/><circle cx="24" cy="18.5" r="1.6" fill="#f2b84b"/></svg></span>Fender Bender <span class="au">Chooser</span></div>
   <div class="topbar-controls">
     <div class="seg" id="viewMode" role="radiogroup" aria-label="View">
-      <button data-view="grid" class="on" role="radio" aria-checked="true">Shortlist</button>
+      <button data-view="decide" class="on" role="radio" aria-checked="true">Decide</button>
       <button data-view="quotes" role="radio" aria-checked="false">My quotes <span class="count" id="quoteCount"></span></button>
       <button data-view="tips" role="radio" aria-checked="false">Tips</button>
     </div>
   </div>
 </header>
 
-<div class="layout">
-  <aside class="filters collapsed" id="filters">
-    <button class="f-toggle" id="filtersToggle" type="button"><span><b>Your choices</b><small id="filtersSummary"></small></span><i>Edit</i></button>
-    <div class="f-head">
-      <h2>Your five choices</h2>
-      <button id="resetAll" class="link">Reset</button>
-    </div>
-
-    <section class="choice">
-      <div class="f-label"><span><i class="n">1</i>Which EX5?</span></div>
-      <div class="chips" id="variantChips"></div>
-      <div class="f-hint" id="variantHint"></div>
-    </section>
-    <section class="choice">
-      <div class="f-label"><span><i class="n">2</i>Main driver's age</span></div>
-      <div class="chips" id="ageChips"></div>
-      <div class="f-hint">The biggest single thing insurers price on.</div>
-    </section>
-    <section class="choice">
-      <div class="f-label"><span><i class="n">3</i>Excess</span></div>
-      <div class="chips" id="excessChips"></div>
-      <div class="f-hint">What you pay towards each at-fault claim. Higher means a cheaper premium; pick what you could pay tomorrow.</div>
-    </section>
-    <section class="choice">
-      <div class="f-label"><span><i class="n">4</i>Must-haves</span></div>
-      <div id="mustList" class="must-list"></div>
-    </section>
-    <section class="choice">
-      <div class="f-label"><span><i class="n">5</i>How you'd pay</span></div>
-      <div class="chips" id="payChips">
-        <button data-v="annual">Yearly</button><button data-v="monthly">Monthly</button>
-      </div>
-      <div class="f-hint">Most insurers charge 8–12% more to pay monthly.</div>
-    </section>
-    <button class="primary f-done" id="filtersDone" type="button">Show shortlist</button>
-  </aside>
-
-  <main class="content">
-    <div class="results-head" id="resultsHead">
-      <div>
-        <h1 id="resultCount">Loading…</h1>
-        <p class="sub" id="resultSub"></p>
-      </div>
-    </div>
-    <div id="best" class="mine hidden"></div>
-    <div id="grid" class="grid"></div>
-    <div id="more" class="more"></div>
-    <div id="quotesView" class="quotes-view hidden"></div>
-    <div id="tipsView" class="tips-view hidden"></div>
-    <p class="disclaimer" id="disclaimer"></p>
-  </main>
-</div>
+<main class="content">
+  <div id="decideView" class="decide-view"></div>
+  <div id="quotesView" class="quotes-view hidden"></div>
+  <div id="tipsView" class="tips-view hidden"></div>
+  <p class="disclaimer" id="disclaimer"></p>
+</main>
 
 <div class="modal hidden" id="detailModal" role="dialog" aria-modal="true">
   <div class="modal-backdrop" data-close></div>
   <div class="modal-panel" id="detailPanel"></div>
 </div>
 
-<script src="data.js?v=2"></script>
-<script src="app.js?v=2"></script>
+<script src="data.js?v=3"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>

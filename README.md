@@ -4,27 +4,23 @@
 
 Compare comprehensive car insurance for a **Geely EX5** in Sydney, and keep track of the real quotes you get. It's set up for a car garaged in the Hills District (NSW 2155), using policy details checked in October 2026.
 
-![Insurers view](docs/insurers.jpg)
+Answer six quick questions and it tells you which insurer to get a quote from first, plus two backups, so you end up with three real prices to compare.
 
-## What it does
+| The questions | Your answer |
+|---|---|
+| ![Questionnaire](docs/quiz.jpg) | ![Result](docs/result.jpg) |
 
-You make five choices:
+## How it works
 
-1. **Which EX5**: Complete or Inspire (sets the insured value)
-2. **Main driver's age**: the biggest thing insurers price on
-3. **Excess**: $500, $1,000, $1,500 or $2,000
-4. **Must-haves**: new car if it's written off, hire car after an accident, agreed value, your own repairer, charging cable cover
-5. **Yearly or monthly**: monthly usually costs 8–12% more
+1. **Six questions:** which EX5 you have, the main driver's age, what you could pay after a crash (your excess), whether you want a brand-new EX5 if it's written off, whether you need a hire car after a crash, and yearly or monthly payment.
+2. **One answer:** the cheapest insurer that gives you what you asked for, with its estimated yearly price and likely renewal price, a plain-English reason, and a **Get a quote** button. Two backups sit underneath.
+3. **Log your real quotes:** once you have prices, the app says *"Go with X at $Y"*, and suggests who to quote next if someone could still come in cheaper. Quotes are saved only in your browser.
 
-You get a **shortlist**: one card per insurer (22 brands, 32 policies behind them), cheapest first, only those that tick your must-haves. Each card shows the first-year estimate, what it's likely to cost at renewal once the online discount drops off, and a tick for each must-have. Tap a card for the full policy breakdown and sources.
+You can change your answers any time, see all 21 insurers, or tap any insurer for the full cover breakdown and sources. **Tips** covers what an EX5 should cost to insure, why Geely's included roadside makes the insurer add-on redundant, agreed vs market value, how to get the price down, and green slips.
 
-**My quotes** is where you log the real quotes you get. They replace the estimates everywhere, and the top banner shows your best quote and who else is worth asking. It also has a checklist of what to have ready and the questions to ask. Quotes are saved only in your browser.
-
-**Tips** covers what an EX5 should cost to insure, why Geely's included roadside makes the insurer add-on redundant, agreed vs market value, how to get the price down, and green slips.
-
-| Policy detail | Tips | Mobile |
-|---|---|---|
-| ![Detail](docs/detail.jpg) | ![Tips](docs/tips.jpg) | ![Mobile](docs/mobile.jpg) |
+| Policy detail | Mobile |
+|---|---|
+| ![Detail](docs/detail.jpg) | ![Mobile](docs/mobile.jpg) |
 
 ## How good are the numbers?
 

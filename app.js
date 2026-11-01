@@ -27,14 +27,44 @@
     : p.f[k] || { s: "unknown" };
   const BASE_F = 0.92; // clean record, garaged, ~12,000 km a year: the typical case
 
+  // ---------- questions ----------
+  const QS = [
+    { k: "variant", q: "Which EX5 do you have?", h: "Sets how much the car is insured for.",
+      opts: [...D.car.variants.map(v => ({ v: v.name, label: `${v.name} (${fmt$(v.rrp)})` })), { v: "Not sure", label: "Not sure" }] },
+    { k: "age", q: "Who mainly drives it?", h: "Age is the biggest thing insurers price on.",
+      opts: [{ v: "u25", label: "Under 25" }, { v: "25", label: "25–29" }, { v: "30", label: "30–49" }, { v: "50", label: "50 or over" }] },
+    { k: "excess", q: "If you crashed tomorrow, what could you comfortably pay?", h: "This is your excess. A higher one makes the yearly price cheaper.",
+      opts: [{ v: 500, label: "$500" }, { v: 1000, label: "$1,000" }, { v: 1500, label: "$1,500" }, { v: 2000, label: "$2,000 or more" }] },
+    { k: "ncr", q: "If it's written off in the first couple of years, do you want a brand-new EX5?", h: "Instead of a payout for what it's worth, which drops fast on a new car.",
+      opts: [{ v: "yes", label: "Yes, a new one" }, { v: "no", label: "A fair payout is fine" }] },
+    { k: "hire", q: "If it's off the road for 3 weeks after a crash, do you need a car meanwhile?", h: "Geely parts can take a while to arrive.",
+      opts: [{ v: "yes", label: "Yes, I need a car" }, { v: "no", label: "No, I'd manage" }] },
+    { k: "pay", q: "How would you like to pay?", h: "Paying monthly usually costs 8–12% more.",
+      opts: [{ v: "annual", label: "All at once (cheaper)" }, { v: "monthly", label: "Monthly" }] },
+  ];
+  const NQ = QS.length;
+  const ANS_DEFAULT = { variant: D.car.variants[0].name, age: "30", excess: 1000, ncr: "yes", hire: "yes", pay: "annual" };
+
   // ---------- state ----------
-  const LS = "fender-bender-v2", LSQ = "fender-bender-quotes-v1";
-  const DEFAULTS = () => ({ variant: D.car.variants[0].name, age: "30", excess: 1000, must: ["newCarReplacement", "hireCarAccident"], pay: "annual" });
-  const state = Object.assign({ view: "grid", showMore: false }, DEFAULTS(), JSON.parse(localStorage.getItem(LS) || "{}"));
-  if (!AGES.some(a => a.v === state.age)) state.age = "30";
-  state.must = state.must.filter(k => MUST[k]);
+  const LS = "fender-bender-v3", LSQ = "fender-bender-quotes-v1";
+  const saved = JSON.parse(localStorage.getItem(LS) || "{}");
+  const ui = { view: ["decide", "quotes", "tips"].includes(saved.view) ? saved.view : "decide", answers: {}, step: 1, done: false, showAll: false };
+  for (const q of QS) if (q.opts.some(o => o.v === saved.answers?.[q.k])) ui.answers[q.k] = saved.answers[q.k];
+  ui.step = Math.min(NQ, Math.max(1, +saved.step || 1));
+  ui.done = !!saved.done && QS.every(q => ui.answers[q.k] !== undefined);
+  // engine fields, derived from the answers (evaluate() and friends read these)
+  const state = {};
+  function derive() {
+    const a = { ...ANS_DEFAULT, ...ui.answers };
+    state.variant = a.variant === "Not sure" ? "Complete" : a.variant;
+    state.age = a.age;
+    state.excess = a.excess;
+    state.must = [a.ncr === "yes" && "newCarReplacement", a.hire === "yes" && "hireCarAccident"].filter(Boolean);
+    state.pay = a.pay;
+  }
+  derive();
   let quotes = JSON.parse(localStorage.getItem(LSQ) || "[]");
-  const persist = () => localStorage.setItem(LS, JSON.stringify(state));
+  const persist = () => localStorage.setItem(LS, JSON.stringify({ view: ui.view, answers: ui.answers, step: ui.step, done: ui.done }));
   const persistQ = () => localStorage.setItem(LSQ, JSON.stringify(quotes));
   const quoteFor = id => quotes.filter(q => q.id === id).sort((a, b) => a.total - b.total)[0];
   const variant = () => D.car.variants.find(v => v.name === state.variant) || D.car.variants[0];
@@ -78,62 +108,118 @@
     return Object.values(byBrand).map(list => ({ ...pick(list), tiers: list.length })).sort((a, b) => a.v.total - b.v.total);
   }
 
-  // ---------- sidebar ----------
-  const chipGroup = (sel, key, after) => {
-    const sync = () => $$(sel + " button").forEach(b => b.classList.toggle("on", String(state[key]) === b.dataset.v));
-    $$(sel + " button").forEach(b => b.onclick = () => { state[key] = isNaN(+b.dataset.v) || key === "age" ? b.dataset.v : +b.dataset.v; sync(); after && after(); update(); });
-    sync(); return sync;
-  };
-  const syncers = [];
-  function renderMust() {
-    $("#mustList").innerHTML = MUSTS.map(m => `<label class="must ${state.must.includes(m.k) ? "on" : ""}"><input type="checkbox" data-k="${m.k}" ${state.must.includes(m.k) ? "checked" : ""}><span><b>${esc(m.label)}</b><small>${esc(m.hint)}</small></span></label>`).join("");
-    $$("#mustList input").forEach(i => i.onchange = () => { const k = i.dataset.k; state.must = i.checked ? [...state.must, k] : state.must.filter(x => x !== k); i.closest(".must").classList.toggle("on", i.checked); update(); });
-  }
-  function initSidebar() {
-    $("#variantChips").innerHTML = D.car.variants.map(v => `<button data-v="${esc(v.name)}">${esc(v.name)} <small>${fmt$(v.rrp)}</small></button>`).join("");
-    $("#ageChips").innerHTML = AGES.map(a => `<button data-v="${a.v}">${a.label}</button>`).join("");
-    $("#excessChips").innerHTML = EXCESSES.map(x => `<button data-v="${x}">${fmt$(x)}</button>`).join("");
-    syncers.push(chipGroup("#variantChips", "variant"), chipGroup("#ageChips", "age"), chipGroup("#excessChips", "excess"), chipGroup("#payChips", "pay"));
-    renderMust();
-    $$("#viewMode button").forEach(b => b.onclick = () => setView(b.dataset.view));
-    $("#resetAll").onclick = () => { Object.assign(state, DEFAULTS()); syncers.forEach(s => s()); renderMust(); update(); };
-    $("#disclaimer").textContent = D.disclaimer;
-    $("#filtersDone").onclick = () => $("#filtersToggle").click();
-    $("#filtersToggle").onclick = () => { const f = $("#filters"); f.classList.toggle("collapsed"); $("#filtersToggle i").textContent = f.classList.contains("collapsed") ? "Edit" : "Done"; if (f.classList.contains("collapsed")) $("#resultsHead").scrollIntoView(); };
-  }
-  function setView(v) { state.view = v; $$("#viewMode button").forEach(x => x.classList.toggle("on", x.dataset.view === v)); update(); window.scrollTo({ top: 0 }); }
+  // ---------- views ----------
+  function setView(v) { ui.view = v; update(); window.scrollTo({ top: 0 }); }
 
-  // ---------- render ----------
   let rows = [];
   function update() {
-    persist();
-    $("#variantHint").textContent = `Insured for about ${fmt$(variant().value)}.`;
-    $("#filtersSummary").textContent = `${state.variant}, age ${age().label}, ${fmt$(state.excess)} excess, ${state.pay === "annual" ? "yearly" : "monthly"} · ${state.must.map(k => MUST[k].short).join(", ") || "no must-haves"}`;
+    derive(); persist();
     rows = brandRows();
+    $("#quoteCount").textContent = quotes.length || "";
+    $$("#viewMode button").forEach(b => { const on = b.dataset.view === ui.view; b.classList.toggle("on", on); b.setAttribute("aria-checked", on); });
+    $("#decideView").classList.toggle("hidden", ui.view !== "decide");
+    $("#quotesView").classList.toggle("hidden", ui.view !== "quotes");
+    $("#tipsView").classList.toggle("hidden", ui.view !== "tips");
+    if (ui.view === "decide") renderDecide();
+    else if (ui.view === "quotes") renderQuotes();
+    else renderTips();
+  }
+
+  function renderDecide() {
+    const el = $("#decideView");
+    if (ui.done) renderResult(el); else renderQuiz(el);
+    $$("#decideView .card").forEach(c => c.onclick = e => { if (e.target.closest("button,a")) return; openDetail(c.dataset.id); });
+    bindLinks(el);
+  }
+
+  // ---------- questionnaire ----------
+  function renderQuiz(el) {
+    const q = QS[ui.step - 1], cur = ui.answers[q.k];
+    el.innerHTML = `${ui.step === 1 ? `<div class="q-intro"><h2>Six quick questions, then one answer</h2><p class="sub">Tap an answer to move on. You can change them later.</p></div>` : ""}<section class="panel quiz">
+      <div class="q-meta"><span>Question ${ui.step} of ${NQ}</span>${ui.step > 1 ? `<button class="link" id="qBack" type="button">← Back</button>` : ""}</div>
+      <div class="q-bar" role="progressbar" aria-valuemin="1" aria-valuemax="${NQ}" aria-valuenow="${ui.step}"><i style="width:${ui.step / NQ * 100}%"></i></div>
+      <h1 class="q-title">${esc(q.q)}</h1>
+      <p class="q-help">${esc(q.h)}</p>
+      <div class="opts">${q.opts.map((o, i) => `<button class="opt ${cur === o.v ? "on" : ""}" type="button" data-i="${i}">${esc(o.label)}</button>`).join("")}</div>
+    </section>`;
+    $$("#decideView .opt").forEach(b => b.onclick = () => {
+      ui.answers[q.k] = q.opts[+b.dataset.i].v;
+      if (ui.step < NQ) ui.step++; else { ui.done = true; ui.showAll = false; }
+      update(); window.scrollTo({ top: 0 });
+    });
+    const back = $("#qBack");
+    if (back) back.onclick = () => { ui.step--; update(); };
+  }
+
+  // ---------- result ----------
+  const AGE_WORDS = { u25: "is under 25", "25": "is aged 25–29", "30": "is aged 30–49", "50": "is 50 or over" };
+  function answerLines() {
+    const a = { ...ANS_DEFAULT, ...ui.answers };
+    return [
+      a.variant === "Not sure" ? `EX5, not sure which one, so we assumed ${state.variant} (insured for about ${fmt$(variant().value)})` : `EX5 ${a.variant}, insured for about ${fmt$(variant().value)}`,
+      `Main driver ${AGE_WORDS[a.age]}`,
+      `${fmt$(a.excess)} excess`,
+      a.ncr === "yes" ? "You want a brand-new EX5 if it's written off" : "A fair payout is fine if it's written off",
+      a.hire === "yes" ? "You need a hire car after a crash" : "You'd manage without a hire car",
+      a.pay === "annual" ? "Paying all at once" : "Paying monthly",
+    ];
+  }
+  const priceOf = r => r.v.q ? fmt$(r.v.total) : `≈${fmt$(r.v.estTotal)}`;
+  const quoteLink = (p, cls = "go") => p.url ? `<a class="${cls}" href="${esc(p.quoteUrl || p.url)}" target="_blank" rel="noopener">Get quote ↗</a>` : "";
+
+  function whySentence(r, noneOk, next) {
+    const { p, v } = r, what = v.q ? "price" : next ? "estimate you haven't quoted yet" : "estimate";
+    if (noneOk) return `The closest match we found${v.missing.length ? `, but it misses ${v.missing.map(m => MUST[m.k].short).join(" and ")}` : p.avoid ? `, though ${p.avoid.charAt(0).toLowerCase() + p.avoid.slice(1)}` : ""}. Your excess is ${fmt$(state.excess)}.`;
+    const bits = [state.must.includes("newCarReplacement") && "a brand-new EX5 if it's written off", state.must.includes("hireCarAccident") && "a hire car after a crash"].filter(Boolean);
+    return bits.length ? `The cheapest ${what} that gives you ${bits.join(" and ")}, with a ${fmt$(state.excess)} excess.` : `The cheapest ${what} for your answers, with a ${fmt$(state.excess)} excess.`;
+  }
+
+  function verdictPanel() {
+    const best = quotes.filter(q => byId[q.id]).sort((a, b) => a.total - b.total)[0];
+    if (!best) return "";
+    const p = byId[best.id], v = evaluate(p);
+    const ok = rows.filter(r => !r.v.missing.length && !r.p.avoid && r.p.openToNew !== false);
+    const maybe = ok.find(r => !quotes.some(q => byId[q.id]?.brand === r.p.brand) && r.v.low < best.total);
+    return `<section class="panel verdict"><span class="mine-label">Your best quote so far</span>
+      <h2>Go with <a href="#" data-open="${p.id}">${esc(p.brand)} ${esc(p.product)}</a> at ${fmt$(best.total)} a year</h2>
+      <p>${v.missing.length ? `It misses ${v.missing.map(m => esc(MUST[m.k].short)).join(" and ")}, so check that before you sign up.` : "It gives you everything you asked for."}${quotes.length > 1 ? ` The cheapest of ${quotes.length} quotes you have logged.` : " It is the only quote you have logged so far."}</p>
+      ${maybe ? `<p class="maybe">Maybe also quote <b>${esc(maybe.p.brand)}</b> (estimate ${fmt$(maybe.v.low)}–${fmt$(maybe.v.high)}).</p>` : ""}
+      <div class="d-actions"><button class="ghost small" type="button" data-open="${p.id}">See details</button></div>
+    </section>`;
+  }
+
+  function topCard(r, noneOk, next) {
+    const { p, v } = r;
+    return `<article class="card simple top rec ${v.q ? "quoted" : ""}" data-id="${p.id}">
+      <div class="strip" style="background:${p.color}"><span class="issuer">${esc(p.brand)}</span><span class="cname">${esc(p.product)}</span></div>
+      <div class="value-row">${v.q ? `<div class="value">${fmt$(v.total)}<small class="real">your quote, a year</small></div>` : `<div class="value est"><span class="approx">≈</span>${fmt$(v.estTotal)}<small>a year, estimate</small></div>`}${Math.round(v.renewal) > Math.round(v.total) + 5 ? `<div class="fee"><b>${fmt$(v.renewal)}</b><span>${v.q ? "" : "≈ "}at renewal</span></div>` : ""}</div>
+      <p class="why">${esc(whySentence(r, noneOk, next))}</p>
+      ${p.award ? `<div class="award">★ ${esc(p.award)}</div>` : ""}
+      <div class="card-actions rec-actions">${p.url ? `<a class="primary btn" href="${esc(p.quoteUrl || p.url)}" target="_blank" rel="noopener">Get a quote ↗</a>` : ""}<button class="ghost" type="button" data-addq="${p.id}">${v.q ? "Edit my quote" : "Log my quote"}</button></div>
+    </article>`;
+  }
+
+  function renderResult(el) {
     const ok = rows.filter(r => !r.v.missing.length && !r.p.avoid && r.p.openToNew !== false);
     const rest = rows.filter(r => !ok.includes(r));
-    $("#quoteCount").textContent = quotes.length || "";
-    const list = state.view === "grid";
-    $("#resultsHead").classList.toggle("hidden", !list);
-    $("#best").classList.toggle("hidden", !list);
-    $("#grid").classList.toggle("hidden", !list);
-    $("#more").classList.toggle("hidden", !list);
-    $("#quotesView").classList.toggle("hidden", state.view !== "quotes");
-    $("#tipsView").classList.toggle("hidden", state.view !== "tips");
-    if (list) {
-      $("#resultCount").textContent = `${ok.length} insurers tick all your must-haves`;
-      $("#resultSub").textContent = `${ok.length > 6 ? "The cheapest 6, " : "Cheapest first, "}${state.pay === "annual" ? "per year" : "paid monthly, per year"}. Prices are estimates until you log a real quote.`;
-      renderBest(ok);
-      const SHOW = 6, extra = ok.slice(SHOW);
-      $("#grid").innerHTML = ok.length ? ok.slice(0, SHOW).map((r, i) => card(r, i === 0)).join("") : `<div class="empty">No insurer ticks every must-have. Untick one to see options.</div>`;
-      const hiddenN = extra.length + rest.length;
-      $("#more").innerHTML = hiddenN ? `<button class="ghost more-toggle" id="moreToggle">${state.showMore ? "Show fewer" : `Show the other ${hiddenN} insurers`}</button>
-        ${state.showMore ? `${extra.length ? `<div class="grid">${extra.map(r => card(r, false)).join("")}</div>` : ""}${rest.length ? `<h3 class="more-h">Miss a must-have, or not recommended</h3><div class="grid dim">${rest.map(r => card(r, false)).join("")}</div>` : ""}` : ""}` : "";
-      if (hiddenN) $("#moreToggle").onclick = () => { state.showMore = !state.showMore; update(); };
-      $$(".card").forEach(c => c.onclick = e => { if (e.target.closest("button,a")) return; openDetail(c.dataset.id); });
-      bindLinks($("#grid")); bindLinks($("#more"));
-    } else if (state.view === "quotes") renderQuotes();
-    else renderTips();
+    const quotedBrands = new Set(quotes.map(q => byId[q.id]?.brand).filter(Boolean));
+    const next = quotedBrands.size > 0 && ok.length > 0; // some quotes logged: recommend brands not yet quoted
+    const pick = (next ? ok.filter(r => !quotedBrands.has(r.p.brand)) : ok.length ? ok : rows).slice(0, 3);
+    const [first, ...backups] = pick;
+    const lines = answerLines();
+    el.innerHTML = `${verdictPanel()}
+      ${ok.length ? "" : `<section class="panel notice"><b>No insurer gives you everything you asked for.</b> Try answering <i>A fair payout is fine</i> or <i>No, I'd manage</i> to see more options. Here are the cheapest three overall.</section>`}
+      ${first ? `<section class="rec-block"><span class="mine-label">${next ? "Quote this next" : "Get this quote first"}</span>${topCard(first, !ok.length, next)}</section>` : ""}
+      ${backups.length ? `<section class="panel"><h2>${next ? `Then ${backups.length > 1 ? "these two" : "this one"}` : `Then quote ${backups.length > 1 ? "these two" : "this one"}, so you have ${backups.length + 1 > 2 ? "three prices" : "two prices"} to compare`}</h2>
+        <ol class="next" style="counter-reset:n 1">${backups.map(r => `<li><a href="#" data-open="${r.p.id}">${esc(r.p.brand)}</a><span>${priceOf(r)}</span>${quoteLink(r.p)}<button class="link small" type="button" data-addq="${r.p.id}">${r.v.q ? "Edit quote" : "Log quote"}</button></li>`).join("")}</ol></section>` : ""}
+      <p class="q-note">Each quote takes about 5 minutes online. Have your rego, VIN and licence handy (<a href="#" data-view="quotes">checklist</a>).</p>
+      <section class="panel answers-panel"><h2>Your answers</h2>
+        <ul class="answers">${lines.map(l => `<li>${esc(l)}</li>`).join("")}</ul>
+        <div class="d-actions"><button class="ghost" type="button" id="changeAns">Change answers</button><button class="ghost" type="button" id="toggleAll">${ui.showAll ? "Hide the other insurers" : `See all ${rows.length} insurers`}</button></div>
+        ${ui.showAll ? `${ok.length ? `<div class="grid">${ok.map(r => card(r, false)).join("")}</div>` : ""}${rest.length ? `<h3 class="more-h">Miss something you asked for, or not recommended</h3><div class="grid dim">${rest.map(r => card(r, false)).join("")}</div>` : ""}` : ""}
+      </section>`;
+    $("#changeAns").onclick = () => { ui.done = false; ui.step = 1; update(); window.scrollTo({ top: 0 }); };
+    $("#toggleAll").onclick = () => { ui.showAll = !ui.showAll; update(); };
   }
 
   const S_ICON = { yes: "✓", addon: "+", partial: "◐", no: "✕", unknown: "?" };
@@ -155,24 +241,6 @@
       ${p.award ? `<div class="award">★ ${esc(p.award)}</div>` : ""}
       <div class="card-actions"><button class="ghost small" data-addq="${p.id}">${v.q ? "Edit quote" : "Log my quote"}</button>${p.url ? `<a class="small" href="${esc(p.quoteUrl || p.url)}" target="_blank" rel="noopener">Get quote ↗</a>` : ""}</div>
     </article>`;
-  }
-
-  function renderBest(ok) {
-    const el = $("#best");
-    const quotedRows = rows.filter(r => r.v.q).sort((a, b) => a.v.total - b.v.total);
-    if (!quotedRows.length) {
-      const next = ok.slice(0, 4);
-      el.innerHTML = `<div class="best-body"><span class="mine-label">Start here</span><h2>Get real quotes from these ${next.length}</h2>
-        <p class="sub">The cheapest estimates that tick your must-haves. Each takes about 5 minutes online. Have your rego, VIN and licence handy (<a href="#" data-view="quotes">checklist</a>).</p></div>
-        <ol class="next">${next.map(r => `<li><a href="#" data-open="${r.p.id}">${esc(r.p.brand)}</a><span>≈${fmt$(r.v.estTotal)}</span>${r.p.url ? `<a class="go" href="${esc(r.p.quoteUrl || r.p.url)}" target="_blank" rel="noopener">Get quote ↗</a>` : ""}<button class="link small" data-addq="${r.p.id}">Log quote</button></li>`).join("")}</ol>`;
-    } else {
-      const b = quotedRows[0];
-      const cheaper = ok.filter(r => !r.v.q && r.v.low < b.v.total).slice(0, 3);
-      el.innerHTML = `<div class="best-body"><span class="mine-label">Best real quote</span><h2><a href="#" data-open="${b.p.id}">${esc(b.p.brand)} ${esc(b.p.product)}</a> at ${fmt$(b.v.total)}/yr</h2>
-        <p class="sub">${b.v.missing.length ? `Missing: ${b.v.missing.map(m => esc(MUST[m.k].short)).join(", ")}. ` : "Ticks every must-have. "}${quotedRows.length > 1 ? `${quotedRows.length} quotes logged.` : "Only one quote so far."}</p></div>
-        <div class="best-verdict">${cheaper.length ? `<div class="mine-on">Worth quoting too, could come in lower:</div><ol class="next">${cheaper.map(r => `<li><a href="#" data-open="${r.p.id}">${esc(r.p.brand)}</a><span>≈${fmt$(r.v.estTotal)}</span><button class="link small" data-addq="${r.p.id}">Log quote</button></li>`).join("")}</ol>` : `<div class="mine-on">Nothing unquoted is likely to beat it. Ring ${esc(b.p.brand)} and ask for a better price, or try a higher excess.</div>`}</div>`;
-    }
-    bindLinks(el);
   }
 
   function bindLinks(root) {
@@ -285,6 +353,7 @@
       <div class="tips-grid">${D.tips.map(t => `<section class="panel tip-card"><h2>${esc(t.h)}</h2>${t.html}${t.src?.length ? `<div class="src">Sources: ${t.src.map((s, i) => `<a href="${esc(s)}" target="_blank" rel="noopener">${i + 1}</a>`).join(" · ")}</div>` : ""}</section>`).join("")}</div>`;
   }
 
-  initSidebar();
-  if (state.view !== "grid") setView(state.view); else update();
+  $("#disclaimer").textContent = D.disclaimer;
+  $$("#viewMode button").forEach(b => b.onclick = () => setView(b.dataset.view));
+  update();
 })();
